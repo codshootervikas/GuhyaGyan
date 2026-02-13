@@ -51,4 +51,25 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.ccp)
+
+    // pin view
+    implementation(libs.pinview)
+
+    // retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // chucker
+    debugImplementation(libs.library)
+    releaseImplementation(libs.library.no.op)
+
+    // image loading library coil
+    implementation(libs.coil)
+
+    // coroutine and view model
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+
 }

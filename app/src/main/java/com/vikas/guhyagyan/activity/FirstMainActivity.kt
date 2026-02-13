@@ -32,7 +32,7 @@ class FirstMainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             val fragmentTag = when (item.itemId) {
                 R.id.nav_home -> "home"
-                R.id.liveFragment -> "live"
+                R.id.nav_live -> "live"
                 R.id.nav_tasks -> "tasks"
                 R.id.nav_leaderboard -> "leaderboard"
                 R.id.nav_profile -> "profile"

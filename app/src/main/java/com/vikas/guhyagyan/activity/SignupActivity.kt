@@ -1,13 +1,30 @@
 package com.vikas.guhyagyan.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.vikas.guhyagyan.R
+import com.vikas.guhyagyan.apiState.ApiState
 import com.vikas.guhyagyan.databinding.ActivitySignupBinding
+import com.vikas.guhyagyan.factory.AuthFactory
+import com.vikas.guhyagyan.models.register.RegisterRequest
+import com.vikas.guhyagyan.repository.AuthRepository
+import com.vikas.guhyagyan.restService.RetrofitBuilder
+import com.vikas.guhyagyan.viewmodel.AuthViewModel
 
 class SignupActivity : AppCompatActivity(R.layout.activity_signup) {
     private lateinit var binding: ActivitySignupBinding
+
+    private val authRepository by lazy {
+        AuthRepository(RetrofitBuilder.getInstance(application)!!.api)
+    }
+
+    private val authViewModel by lazy {
+        ViewModelProvider(this, AuthFactory(authRepository))[AuthViewModel::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,21 +32,54 @@ class SignupActivity : AppCompatActivity(R.layout.activity_signup) {
         setContentView(binding.root)
         init()
     }
+
     private fun init() {
+
+        authViewModel.register.observe(this) {
+            when (it) {
+                is ApiState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+
+                is ApiState.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(this, it.data?.message, Toast.LENGTH_SHORT).show()
+                    it.data?.data?.verifyKey?.let { key ->
+                        startActivity(Intent(this, ValidateOtpActivity::class.java)
+                            .putExtra("key", key))
+                    }
+                }
+
+                is ApiState.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
 
         binding.registerBtn.setOnClickListener {
             if (validateFields()) {
                 Toast.makeText(this, "Valid Data!", Toast.LENGTH_SHORT).show()
+            } else {
+                authViewModel.registerApi(
+                    RegisterRequest(
+                        email = binding.etEmail.text.toString().trim(),
+                        name = binding.etName.text.toString().trim(),
+                        password = binding.etPassword1.text.toString().trim(),
+                    )
+                )
             }
         }
 
-
     }
+
     private fun validateFields(): Boolean {
         val name = binding.etName.text.toString().trim()
         val phone = binding.etPhone.text.toString().trim()
         val email = binding.etEmail.text.toString().trim()
-        val address = binding.etAddress.text.toString().trim()
+        val pass1 = binding.etPassword1.text.toString().trim()
+        val pass2 = binding.etPassword2.text.toString().trim()
 
         var isValid = true
 
@@ -56,19 +106,35 @@ class SignupActivity : AppCompatActivity(R.layout.activity_signup) {
         if (email.isEmpty()) {
             binding.emailLayout.error = "Email is required"
             isValid = false
-        }else if (email.isNotEmpty() && !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        } else if (email.isNotEmpty() && !android.util.Patterns.EMAIL_ADDRESS.matcher(email)
+                .matches()
+        ) {
             binding.emailLayout.error = "Enter valid email"
             isValid = false
         } else {
             binding.emailLayout.error = null
         }
 
-        // Address Validation (Optional)
-        if (address.isEmpty()) {
-            binding.addressLayout.error = "Address is required"
+
+        if (pass1.isEmpty()) {
+            binding.passwordLayout1.error = "password is required"
             isValid = false
         } else {
-            binding.addressLayout.error = null
+            binding.passwordLayout1.error = null
+        }
+
+        if (pass2.isEmpty()) {
+            binding.passwordLayout2.error = "confirm password is required"
+            isValid = false
+        } else {
+            binding.passwordLayout2.error = null
+        }
+
+        if (pass1 != pass2) {
+            binding.passwordLayout2.error = "Password does not match"
+            isValid = false
+        } else {
+            binding.passwordLayout2.error = null
         }
 
         return isValid
