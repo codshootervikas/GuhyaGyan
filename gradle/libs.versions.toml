@@ -20,11 +20,13 @@ coil = "2.7.0"
 kotlinxCoroutinesAndroid = "1.8.1"
 kotlinxCoroutinesCore = "1.8.1"
 library = "4.0.0"
+pdfViewerFragment = "1.0.0-alpha13"
 pinview = "1.4.4"
 retrofit = "2.11.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-pdf-viewer-fragment = { module = "androidx.pdf:pdf-viewer-fragment", version.ref = "pdfViewerFragment" }
 ccp = { module = "com.hbb20:ccp", version.ref = "ccp" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

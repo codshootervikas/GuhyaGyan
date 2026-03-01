@@ -5,6 +5,7 @@ import android.content.Intent
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.GsonBuilder
 import com.vikas.guhyagyan.LoginSinghUpActivity
+import com.vikas.guhyagyan.restservice.ApiInterface
 import com.vikas.guhyagyan.utils.LoginManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -60,7 +61,7 @@ class RetrofitBuilder(application: Application) {
         get() = retrofit.create(ApiInterface::class.java)
 
     companion object {
-        const val BASEURL = "http://localhost:3000/"
+        const val BASEURL = "https://gw8zr7gs-3000.inc1.devtunnels.ms/api/"
         private var mInstance: RetrofitBuilder? = null
 
         @Synchronized

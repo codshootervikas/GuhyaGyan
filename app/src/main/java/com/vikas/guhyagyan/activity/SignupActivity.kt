@@ -46,7 +46,8 @@ class SignupActivity : AppCompatActivity(R.layout.activity_signup) {
                     Toast.makeText(this, it.data?.message, Toast.LENGTH_SHORT).show()
                     it.data?.data?.verifyKey?.let { key ->
                         startActivity(Intent(this, ValidateOtpActivity::class.java)
-                            .putExtra("key", key))
+                            .putExtra("key", key)
+                            .putExtra("email", binding.etEmail.text.toString().trim()))
                     }
                 }
 
@@ -60,11 +61,10 @@ class SignupActivity : AppCompatActivity(R.layout.activity_signup) {
 
         binding.registerBtn.setOnClickListener {
             if (validateFields()) {
-                Toast.makeText(this, "Valid Data!", Toast.LENGTH_SHORT).show()
-            } else {
                 authViewModel.registerApi(
                     RegisterRequest(
                         email = binding.etEmail.text.toString().trim(),
+                        phone = binding.etPhone.text.toString().trim(),
                         name = binding.etName.text.toString().trim(),
                         password = binding.etPassword1.text.toString().trim(),
                     )

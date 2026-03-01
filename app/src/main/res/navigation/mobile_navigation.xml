@@ -19,7 +19,17 @@
         android:id="@+id/tasksFragment"
         android:name="com.vikas.guhyagyan.fragments.TasksFragment"
         android:label="fragment_tasks"
-        tools:layout="@layout/fragment_tasks" />
+        tools:layout="@layout/fragment_tasks" >
+
+        <action android:id="@+id/action_tasksFragment_to_uploadRecordingFragment"
+            app:destination="@id/uploadRecordingFragment"/>
+
+    </fragment>
+
+    <fragment android:id="@+id/uploadRecordingFragment"
+        android:name="com.vikas.guhyagyan.fragments.UploadRecordingFragment"
+    android:label="fragment_upload_recording"/>
+
     <fragment
         android:id="@+id/leaderboardFragment"
         android:name="com.vikas.guhyagyan.fragments.LeaderboardFragment"

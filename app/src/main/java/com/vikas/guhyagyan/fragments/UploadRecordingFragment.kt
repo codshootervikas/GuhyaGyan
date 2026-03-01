@@ -8,10 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.vikas.guhyagyan.R
 
-class LeaderboardFragment : Fragment() {
+class UploadRecordingFragment : Fragment() {
 
     companion object {
-        fun newInstance() = LeaderboardFragment()
+        fun newInstance() = UploadRecordingFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +24,6 @@ class LeaderboardFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_leaderboard, container, false)
+        return inflater.inflate(R.layout.fragment_upload_recording, container, false)
     }
 }

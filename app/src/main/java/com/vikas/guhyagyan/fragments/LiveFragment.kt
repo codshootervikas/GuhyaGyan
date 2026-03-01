@@ -14,8 +14,6 @@ class LiveFragment : Fragment() {
         fun newInstance() = LiveFragment()
     }
 
-    private val viewModel: LiveViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

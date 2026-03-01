@@ -4,11 +4,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.vikas.guhyagyan.R
 import com.vikas.guhyagyan.databinding.ActivityLoginBinding
+import com.vikas.guhyagyan.factory.AuthFactory
+import com.vikas.guhyagyan.models.login.LoginRequest
+import com.vikas.guhyagyan.repository.AuthRepository
+import com.vikas.guhyagyan.restService.RetrofitBuilder
+import com.vikas.guhyagyan.viewmodel.AuthViewModel
 
 class LoginActivity : AppCompatActivity(R.layout.activity_login) {
     private lateinit var binding: ActivityLoginBinding
+
+    private val authRepository by lazy {
+        AuthRepository(RetrofitBuilder.getInstance(application)!!.api)
+    }
+
+    private val authViewModel by lazy {
+        ViewModelProvider(this, AuthFactory(authRepository))[AuthViewModel::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +38,7 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
         binding.loginBtn.setOnClickListener {
             if (validation()) {
-                Toast.makeText(this, "Valid Data!", Toast.LENGTH_SHORT).show()
+//                authViewModel.loginApi(LoginRequest())
             }
         }
 
