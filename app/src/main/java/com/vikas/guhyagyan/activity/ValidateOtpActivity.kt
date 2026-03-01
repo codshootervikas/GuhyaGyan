@@ -15,6 +15,7 @@ import com.vikas.guhyagyan.factory.AuthFactory
 import com.vikas.guhyagyan.models.verify_otp.VerifyOtpRequest
 import com.vikas.guhyagyan.repository.AuthRepository
 import com.vikas.guhyagyan.restService.RetrofitBuilder
+import com.vikas.guhyagyan.utils.LoginManager
 import com.vikas.guhyagyan.viewmodel.AuthViewModel
 
 class ValidateOtpActivity : AppCompatActivity(R.layout.activity_validate_otp) {
@@ -27,6 +28,8 @@ class ValidateOtpActivity : AppCompatActivity(R.layout.activity_validate_otp) {
     private val authViewModel by lazy {
         ViewModelProvider(this, AuthFactory(authRepository))[AuthViewModel::class.java]
     }
+
+    private val loginManager by lazy { LoginManager(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,8 +65,9 @@ class ValidateOtpActivity : AppCompatActivity(R.layout.activity_validate_otp) {
 
                 is ApiState.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    if (it.data?.success == true) {
-                        startActivity(Intent(this, LoginActivity::class.java))
+                    if (it.data?.success == true && !it.data.data?.token.isNullOrEmpty()) {
+                        loginManager.setToken(it.data.data.token)
+                        startActivity(Intent(this, FirstMainActivity::class.java))
                         finish()
                     }
                     Toast.makeText(this, it.data?.message, Toast.LENGTH_SHORT).show()
