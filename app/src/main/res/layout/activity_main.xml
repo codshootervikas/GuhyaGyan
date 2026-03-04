@@ -16,7 +16,7 @@
             android:layout_height="150dp"
             android:contentDescription="@null"
             android:scaleType="fitXY"
-            android:src="@drawable/app_logo"
+            android:src="@mipmap/ic_launcher"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

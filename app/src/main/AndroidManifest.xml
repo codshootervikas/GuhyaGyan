@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -18,17 +17,19 @@
         android:usesCleartextTraffic="true"
         tools:ignore="MissingClass">
         <activity
+            android:name=".activity.AudioActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ValidateOtpActivity"
             android:exported="false" />
         <activity
             android:name=".activity.FirstMainActivity"
             android:exported="false" />
-
         <activity
             android:name=".CreateAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginSinghUpActivity"
+            android:name=".LoginSignUpActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SignupActivity"
@@ -45,6 +46,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.vikas.guhyagyan.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <meta-data
             android:name="preloaded_fonts"

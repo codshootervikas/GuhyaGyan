@@ -4,8 +4,7 @@ import android.app.Application
 import android.content.Intent
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.GsonBuilder
-import com.vikas.guhyagyan.LoginSinghUpActivity
-import com.vikas.guhyagyan.restservice.ApiInterface
+import com.vikas.guhyagyan.LoginSignUpActivity
 import com.vikas.guhyagyan.utils.LoginManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -17,7 +16,7 @@ import java.util.concurrent.TimeUnit
 
 class RetrofitBuilder(application: Application) {
 
-    private val retrofit: retrofit2.Retrofit
+    private val retrofit: Retrofit
     private val loginManager = LoginManager(application)
 
     init {
@@ -36,7 +35,7 @@ class RetrofitBuilder(application: Application) {
                         if (response.code == 401) {
                             val intent = Intent(
                                 application.applicationContext,
-                                LoginSinghUpActivity::class.java
+                                LoginSignUpActivity::class.java
                             )
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             application.applicationContext.startActivity(intent)
@@ -61,7 +60,7 @@ class RetrofitBuilder(application: Application) {
         get() = retrofit.create(ApiInterface::class.java)
 
     companion object {
-        const val BASEURL = "https://gw8zr7gs-3000.inc1.devtunnels.ms/api/"
+        const val BASEURL = "https://9vlh6582-3000.inc1.devtunnels.ms/api/"
         private var mInstance: RetrofitBuilder? = null
 
         @Synchronized
@@ -75,3 +74,4 @@ class RetrofitBuilder(application: Application) {
     }
 
 }
+
