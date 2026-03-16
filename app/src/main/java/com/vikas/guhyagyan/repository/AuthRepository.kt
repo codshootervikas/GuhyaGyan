@@ -10,6 +10,7 @@ import com.vikas.guhyagyan.models.file.FileRemoveRequest
 import com.vikas.guhyagyan.models.file.FileUploadResponse
 import com.vikas.guhyagyan.models.login.LoginRequest
 import com.vikas.guhyagyan.models.login.LoginResponse
+import com.vikas.guhyagyan.models.pdf.PDFResponse
 import com.vikas.guhyagyan.models.register.RegisterRequest
 import com.vikas.guhyagyan.models.register.RegistrationResponse
 import com.vikas.guhyagyan.models.verify_otp.VerifyOtpRequest
@@ -164,5 +165,35 @@ class AuthRepository(private val apiInterface: ApiInterface) {
             fileRemoveLiveData.postValue(ApiState.Error(e.message ?: "Unknown error"))
         }
     }
+
+    private val getPdfLiveData = MutableLiveData<ApiState<PDFResponse>>()
+    val getPdf get() = getPdfLiveData
+
+    suspend fun pdfApi() {
+        getPdfLiveData.postValue(ApiState.Loading())
+        try {
+            val response = apiInterface.getPdfFile()
+            if (response.isSuccessful && response.body() != null) {
+                getPdfLiveData.postValue(ApiState.Success(response.body()!!))
+            } else {
+                val errorBody = response.errorBody()?.string()
+                if (errorBody != null) {
+                    val errorResponse: ErrorResponse = Gson().fromJson(
+                        errorBody, object : TypeToken<ErrorResponse>() {}.type
+                    )
+                    getPdfLiveData.postValue(ApiState.Error(errorResponse.message))
+                } else {
+                    getPdfLiveData.postValue(
+                        ApiState.Error(
+                            response.message() ?: "Something went wrong"
+                        )
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            getPdfLiveData.postValue(ApiState.Error(e.message ?: "Unknown error"))
+        }
+        }
+
 
 }

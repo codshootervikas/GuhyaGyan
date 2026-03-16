@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    android:layout_marginBottom="12dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:padding="12dp">
+
+        <!-- PDF Icon Background -->
+        <ImageView
+            android:id="@+id/pdfIcon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#F8D7DA"
+            android:padding="10dp"
+            android:src="@android:drawable/ic_menu_save"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- File Name -->
+        <TextView
+            android:id="@+id/fileName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Project_Brief_v2.pdf"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#1E2A3A"
+            app:layout_constraintStart_toEndOf="@id/pdfIcon"
+            app:layout_constraintTop_toTopOf="@id/pdfIcon"
+            app:layout_constraintEnd_toStartOf="@id/menuIcon"
+            android:layout_marginStart="12dp"/>
+
+        <!-- File Size + Date -->
+        <TextView
+            android:id="@+id/fileInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2.4 MB • Oct 24, 2023"
+            android:textSize="13sp"
+            android:textColor="#8A96A3"
+            app:layout_constraintStart_toStartOf="@id/fileName"
+            app:layout_constraintTop_toBottomOf="@id/fileName"/>
+
+        <!-- Menu Icon -->
+        <ImageView
+            android:id="@+id/menuIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_more"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
