@@ -166,24 +166,24 @@ class AuthRepository(private val apiInterface: ApiInterface) {
         }
     }
 
-    private val getPdfLiveData = MutableLiveData<ApiState<PDFResponse>>()
-    val getPdf get() = getPdfLiveData
 
+    private val pdfLiveData = MutableLiveData<ApiState<PDFResponse>>()
+    val getPdf get() = pdfLiveData
     suspend fun pdfApi() {
-        getPdfLiveData.postValue(ApiState.Loading())
+        pdfLiveData.postValue(ApiState.Loading())
         try {
             val response = apiInterface.getPdfFile()
             if (response.isSuccessful && response.body() != null) {
-                getPdfLiveData.postValue(ApiState.Success(response.body()!!))
+                pdfLiveData.postValue(ApiState.Success(response.body()!!))
             } else {
                 val errorBody = response.errorBody()?.string()
                 if (errorBody != null) {
                     val errorResponse: ErrorResponse = Gson().fromJson(
                         errorBody, object : TypeToken<ErrorResponse>() {}.type
                     )
-                    getPdfLiveData.postValue(ApiState.Error(errorResponse.message))
+                    pdfLiveData.postValue(ApiState.Error(errorResponse.message))
                 } else {
-                    getPdfLiveData.postValue(
+                    pdfLiveData.postValue(
                         ApiState.Error(
                             response.message() ?: "Something went wrong"
                         )
@@ -191,9 +191,38 @@ class AuthRepository(private val apiInterface: ApiInterface) {
                 }
             }
         } catch (e: Exception) {
-            getPdfLiveData.postValue(ApiState.Error(e.message ?: "Unknown error"))
+            pdfLiveData.postValue(ApiState.Error(e.message ?: "Unknown error"))
         }
+    }
+
+
+    private val sendAudioLiveData = MutableLiveData<ApiState<CommonResponse>>()
+    val sendAudio get() = sendAudioLiveData
+    suspend fun sendAudioApi(audio: MultipartBody.Part) {
+        sendAudioLiveData.postValue(ApiState.Loading())
+        try {
+            val response = apiInterface.uploadAudio(audio)
+            if (response.isSuccessful && response.body() != null) {
+                sendAudioLiveData.postValue(ApiState.Success(response.body()!!))
+            } else {
+                val errorBody = response.errorBody()?.string()
+                if (errorBody != null) {
+                    val errorResponse: ErrorResponse = Gson().fromJson(
+                        errorBody, object : TypeToken<ErrorResponse>() {}.type
+                    )
+                    sendAudioLiveData.postValue(ApiState.Error(errorResponse.message))
+                } else {
+                    sendAudioLiveData.postValue(
+                        ApiState.Error(
+                            response.message() ?: "Something went wrong"
+                        )
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            sendAudioLiveData.postValue(ApiState.Error(e.message ?: "Unknown error"))
         }
+    }
 
 
 }

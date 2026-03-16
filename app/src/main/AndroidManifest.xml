@@ -4,7 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -15,11 +16,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GuhyaGyan"
-        android:usesCleartextTraffic="true"
-        tools:ignore="MissingClass">
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".activity.AudioActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.ValidateOtpActivity"
             android:exported="false" />
@@ -41,12 +46,14 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
+        // for record audio in foreground service
+        <service
+            android:name=".utils.AudioRecordingService"
+            android:exported="false"
+            android:foregroundServiceType="microphone" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -62,9 +69,6 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <service
-            android:name=".utils.ForegroundService"
-            android:exported="false"/>
     </application>
 
 </manifest>

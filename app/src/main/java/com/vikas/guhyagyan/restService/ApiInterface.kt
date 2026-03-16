@@ -39,4 +39,10 @@ interface ApiInterface {
     @GET("pdf/my")
     suspend fun getPdfFile(): Response<PDFResponse>
 
+    @Multipart
+    @POST("upload-audio")
+    suspend fun uploadAudio(
+        @Part audio: MultipartBody.Part
+    ): Response<CommonResponse>
+
 }

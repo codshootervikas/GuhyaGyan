@@ -50,4 +50,21 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
         }
     }
 
+
+    val pdfList = authRepository.getPdf
+    fun getPdfsApi() {
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepository.pdfApi()
+        }
+    }
+
+
+    val sendAudio = authRepository.sendAudio
+    fun sendAudioApi(audio: MultipartBody.Part) {
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepository.sendAudioApi(audio)
+        }
+    }
+
+
 }
