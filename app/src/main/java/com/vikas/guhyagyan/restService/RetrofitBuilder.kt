@@ -60,7 +60,7 @@ class RetrofitBuilder(application: Application) {
         get() = retrofit.create(ApiInterface::class.java)
 
     companion object {
-        const val BASEURL = "https://9vlh6582-3000.inc1.devtunnels.ms/api/"
+        const val BASEURL = "https://gw8zr7gs-3000.inc1.devtunnels.ms/api/"
         private var mInstance: RetrofitBuilder? = null
 
         @Synchronized
